@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kylie AI Receptionist - Dashboard</title>
+    <meta name="description" content="AI Voice Receptionist System for Car Detailing Business - Admin Dashboard">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="auth-screen">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-logo">
+                    <div class="logo-icon">🤖</div>
+                    <h1>Kylie AI</h1>
+                    <p>Voice Receptionist System</p>
+                </div>
+                <form class="auth-form" onsubmit="login(event)">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="admin@cardetailing.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Sign In</button>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="main-app" class="app-container" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🤖 Kylie AI</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="showScreen('dashboard')">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="#" class="nav-item" onclick="showScreen('crm')">
+                    <span class="icon">👥</span>
+                    <span>CRM</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showScreen('appointments')">
+                    <span class="icon">📅</span>
+                    <span>Appointments</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showScreen('call-logs')">
+                    <span class="icon">📋</span>
+                    <span>Call Logs</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showScreen('settings')">
+                    <span class="icon">⚙️</span>
+                    <span>AI Settings</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showScreen('workflow')">
+                    <span class="icon">🔄</span>
+                    <span>System Flow</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h2 id="page-title">Dashboard</h2>
+                </div>
+                <div class="topbar-right">
+                    <div class="notification-icon">🔔</div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff" alt="Admin">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Screen -->
+            <div id="screen-dashboard" class="screen active">
+                <div class="ai-status-banner">
+                    <div class="status-indicator online"></div>
+                    <span>AI Kylie is Active</span>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue">📞</div>
+                        <div class="kpi-content">
+                            <h3>Total Calls Today</h3>
+                            <p class="kpi-value">47</p>
+                            <span class="kpi-change positive">+12% from yesterday</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon green">✅</div>
+                        <div class="kpi-content">
+                            <h3>Successful Bookings</h3>
+                            <p class="kpi-value">23</p>
+                            <span class="kpi-change positive">+8% conversion</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon purple">👤</div>
+                        <div class="kpi-content">
+                            <h3>New Clients</h3>
+                            <p class="kpi-value">12</p>
+                            <span class="kpi-change positive">+5 from yesterday</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon orange">📅</div>
+                        <div class="kpi-content">
+                            <h3>Appointments Today</h3>
+                            <p class="kpi-value">18</p>
+                            <span class="kpi-change neutral">6 remaining</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-charts">
+                    <div class="chart-card">
+                        <h3>Call Volume (Last 7 Days)</h3>
+                        <canvas id="callVolumeChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Booking Success Rate</h3>
+                        <canvas id="successRateChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon success">✓</div>
+                            <div class="activity-content">
+                                <p><strong>New booking</strong> - Sarah Johnson</p>
+                                <span>Interior detailing • Tomorrow at 2:00 PM</span>
+                            </div>
+                            <span class="activity-time">2 min ago</span>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon info">📞</div>
+                            <div class="activity-content">
+                                <p><strong>Call completed</strong> - Mike Davis</p>
+                                <span>Inquiry about pricing</span>
+                            </div>
+                            <span class="activity-time">15 min ago</span>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon warning">⚠</div>
+                            <div class="activity-content">
+                                <p><strong>Appointment rescheduled</strong> - Emma Wilson</p>
+                                <span>Moved to next week</span>
+                            </div>
+                            <span class="activity-time">1 hour ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- CRM Screen -->
+            <div id="screen-crm" class="screen">
+                <div class="screen-header">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search clients by name, email, or phone...">
+                    </div>
+                    <button class="btn-primary">+ Add Client</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Type</th>
+                                <th>Appointments</th>
+                                <th>Last Contact</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Sarah Johnson</strong></td>
+                                <td>sarah.j@email.com</td>
+                                <td>+1 (555) 234-5678</td>
+                                <td><span class="badge returning">Returning</span></td>
+                                <td>5</td>
+                                <td>2 min ago</td>
+                                <td><button class="btn-icon">👁️</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mike Davis</strong></td>
+                                <td>mike.d@email.com</td>
+                                <td>+1 (555) 345-6789</td>
+                                <td><span class="badge new">New</span></td>
+                                <td>0</td>
+                                <td>15 min ago</td>
+                                <td><button class="btn-icon">👁️</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Emma Wilson</strong></td>
+                                <td>emma.w@email.com</td>
+                                <td>+1 (555) 456-7890</td>
+                                <td><span class="badge returning">Returning</span></td>
+                                <td>3</td>
+                                <td>1 hour ago</td>
+                                <td><button class="btn-icon">👁️</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>James Brown</strong></td>
+                                <td>james.b@email.com</td>
+                                <td>+1 (555) 567-8901</td>
+                                <td><span class="badge returning">Returning</span></td>
+                                <td>8</td>
+                                <td>3 hours ago</td>
+                                <td><button class="btn-icon">👁️</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lisa Anderson</strong></td>
+                                <td>lisa.a@email.com</td>
+                                <td>+1 (555) 678-9012</td>
+                                <td><span class="badge new">New</span></td>
+                                <td>1</td>
+                                <td>Today</td>
+                                <td><button class="btn-icon">👁️</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Appointments Screen -->
+            <div id="screen-appointments" class="screen">
+                <div class="screen-header">
+                    <div class="calendar-controls">
+                        <button class="btn-secondary">← Prev</button>
+                        <h3>January 29, 2026</h3>
+                        <button class="btn-secondary">Next →</button>
+                    </div>
+                    <button class="btn-primary">+ Book Appointment</button>
+                </div>
+
+                <div class="calendar-view">
+                    <div class="time-slots">
+                        <div class="time-slot">
+                            <span class="time">9:00 AM</span>
+                            <div class="slot-content available">Available</div>
+                        </div>
+                        <div class="time-slot">
+                            <span class="time">10:00 AM</span>
+                            <div class="slot-content booked">
+                                <strong>Sarah Johnson</strong>
+                                <p>Interior Detailing - SUV</p>
+                            </div>
+                        </div>
+                        <div class="time-slot">
+                            <span class="time">11:00 AM</span>
+                            <div class="slot-content available">Available</div>
+                        </div>
+                        <div class="time-slot">
+                            <span class="time">12:00 PM</span>
+                            <div class="slot-content available">Available</div>
+                        </div>
+                        <div class="time-slot">
+                            <span class="time">1:00 PM</span>
+                            <div class="slot-content available">Available</div>
+                        </div>
+                        <div class="time-slot">
+                            <span class="time">2:00 PM</span>
+                            <div class="slot-content booked">
+                                <strong>James Brown</strong>
+                                <p>Exterior Detailing - Sedan</p>
+                            </div>
+                        </div>
+                        <div class="time-slot">
+                            <span class="time">3:00 PM</span>
+                            <div class="slot-content booked">
+                                <strong>Lisa Anderson</strong>
+                                <p>Full Detail - Truck</p>
+                            </div>
+                        </div>
+                        <div class="time-slot">
+                            <span class="time">4:00 PM</span>
+                            <div class="slot-content available">Available</div>
+                        </div>
+                        <div class="time-slot">
+                            <span class="time">5:00 PM</span>
+                            <div class="slot-content available">Available</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call Logs Screen -->
+            <div id="screen-call-logs" class="screen">
+                <div class="screen-header">
+                    <div class="filter-group">
+                        <input type="date" class="date-filter">
+                        <select class="outcome-filter">
+                            <option>All Outcomes</option>
+                            <option>Booked</option>
+                            <option>Inquiry</option>
+                            <option>Transferred</option>
+                            <option>Failed</option>
+                        </select>
+                    </div>
+                    <button class="btn-secondary">📥 Export CSV</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Caller</th>
+                                <th>Duration</th>
+                                <th>Outcome</th>
+                                <th>Summary</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Jan 29, 11:48 AM</td>
+                                <td>Sarah Johnson</td>
+                                <td>04:12</td>
+                                <td><span class="badge success">Booked</span></td>
+                                <td>Interior detailing appointment scheduled</td>
+                                <td><button class="btn-icon">👁️</button></td>
+                            </tr>
+                            <tr>
+                                <td>Jan 29, 11:33 AM</td>
+                                <td>Mike Davis</td>
+                                <td>02:45</td>
+                                <td><span class="badge info">Inquiry</span></td>
+                                <td>Pricing information provided</td>
+                                <td><button class="btn-icon">👁️</button></td>
+                            </tr>
+                            <tr>
+                                <td>Jan 29, 10:52 AM</td>
+                                <td>+1 (555) 456-7890</td>
+                                <td>01:23</td>
+                                <td><span class="badge warning">Transferred</span></td>
+                                <td>Complex issue - transferred to manager</td>
+                                <td><button class="btn-icon">👁️</button></td>
+                            </tr>
+                            <tr>
+                                <td>Jan 29, 10:15 AM</td>
+                                <td>Emma Wilson</td>
+                                <td>03:30</td>
+                                <td><span class="badge success">Booked</span></td>
+                                <td>Rescheduled existing appointment</td>
+                                <td><button class="btn-icon">👁️</button></td>
+                            </tr>
+                            <tr>
+                                <td>Jan 29, 9:45 AM</td>
+                                <td>+1 (555) 789-0123</td>
+                                <td>00:34</td>
+                                <td><span class="badge error">Failed</span></td>
+                                <td>Call dropped - technical issue</td>
+                                <td><button class="btn-icon">👁️</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- AI Settings Screen -->
+            <div id="screen-settings" class="screen">
+                <div class="settings-container">
+                    <div class="settings-section">
+                        <h3>AI Configuration</h3>
+                        <div class="form-group">
+                            <label>AI Name</label>
+                            <input type="text" value="Kylie" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Voice Type</label>
+                            <select class="form-control">
+                                <option>Female - Professional</option>
+                                <option>Female - Friendly</option>
+                                <option>Male - Professional</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Business Hours</h3>
+                        <div class="hours-grid">
+                            <div class="hour-row">
+                                <span>Monday - Friday</span>
+                                <input type="time" value="09:00"> - <input type="time" value="18:00">
+                            </div>
+                            <div class="hour-row">
+                                <span>Saturday</span>
+                                <input type="time" value="10:00"> - <input type="time" value="16:00">
+                            </div>
+                            <div class="hour-row">
+                                <span>Sunday</span>
+                                <span class="closed-badge">Closed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Service Types</h3>
+                        <div class="service-list">
+                            <div class="service-item">
+                                <span>Interior Detailing</span>
+                                <input type="text" value="$150" class="price-input">
+                            </div>
+                            <div class="service-item">
+                                <span>Exterior Detailing</span>
+                                <input type="text" value="$120" class="price-input">
+                            </div>
+                            <div class="service-item">
+                                <span>Full Detail Package</span>
+                                <input type="text" value="$250" class="price-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Call Handoff Rules</h3>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" checked>
+                                Transfer on customer complaint
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" checked>
+                                Transfer on refund request
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox">
+                                Transfer on pricing negotiation
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary">Save Settings</button>
+                </div>
+            </div>
+
+            <!-- System Workflow Screen -->
+            <div id="screen-workflow" class="screen">
+                <div class="workflow-diagram">
+                    <h3>System Architecture & Data Flow</h3>
+                    <div class="flow-container">
+                        <div class="flow-step">
+                            <div class="flow-box caller">
+                                <div class="flow-icon">📱</div>
+                                <h4>Incoming Call</h4>
+                                <p>Customer calls business number</p>
+                            </div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="flow-box vapi">
+                                <div class="flow-icon">🤖</div>
+                                <h4>VAPI AI Engine</h4>
+                                <p>Voice conversation processing</p>
+                                <ul>
+                                    <li>Speech-to-text</li>
+                                    <li>Intent recognition</li>
+                                    <li>Natural conversation</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="flow-box n8n">
+                                <div class="flow-icon">⚙️</div>
+                                <h4>n8n Workflow</h4>
+                                <p>Business logic automation</p>
+                                <ul>
+                                    <li>Customer identification</li>
+                                    <li>Appointment logic</li>
+                                    <li>Data routing</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="flow-box-group">
+                                <div class="flow-box sheets">
+                                    <div class="flow-icon">📊</div>
+                                    <h4>Google Sheets CRM</h4>
+                                    <p>Customer database</p>
+                                </div>
+                                <div class="flow-box calendar">
+                                    <div class="flow-icon">📅</div>
+                                    <h4>Google Calendar</h4>
+                                    <p>Appointment scheduling</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="flow-box logs">
+                                <div class="flow-icon">📋</div>
+                                <h4>Call Logs</h4>
+                                <p>Automated logging & analytics</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-legend">
+                        <h4>Integration Details</h4>
+                        <div class="legend-grid">
+                            <div class="legend-item">
+                                <strong>VAPI:</strong> Handles all voice interactions with natural language
+                                understanding
+                            </div>
+                            <div class="legend-item">
+                                <strong>n8n MCP Server:</strong> Orchestrates workflows between all systems
+                            </div>
+                            <div class="legend-item">
+                                <strong>Google Sheets:</strong> Stores customer data, preferences, and history
+                            </div>
+                            <div class="legend-item">
+                                <strong>Google Calendar:</strong> Manages appointment availability and bookings
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
